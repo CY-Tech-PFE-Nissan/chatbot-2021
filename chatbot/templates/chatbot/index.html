@@ -1,0 +1,35 @@
+<HTML lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <title>MyNissan Chatbot</title>
+    </head>
+    <body>
+        <div class="d-flex flex-row justify-content-center m-3">
+            <h1>MyNissan Chatbot</h1>
+        </div>
+
+        <div class="container d-flex justify-content-center">
+            <div class="material-switch pull-right">
+                <input id="icon_recognition_checkbox" name="icon_recognition_checkbox" type="checkbox"/>
+                <label for="icon_recognition_checkbox" class="label-success"></label>
+            </div>
+            <div class="card mt-5" id="chatbox"></div>
+            <div class="input-group">
+                <div class="chat">
+                    <input id="message" type="text" class="form-control" name="query">
+                </div>
+                <div class="custom-file">
+                    <input id="uploadFile" class="custom-file-input" type="file" name="file">
+                    <label class="custom-file-label" for="uploadFile"></label>
+                </div>
+                <button class="btn btn-primary" type=submit onclick="send()">Send</button>
+            </div>
+        </div>
+    </body>
+
+    {% csrf_token %}
+    <script src="../static/js/cookie.js"></script>
+    <script src="../static/js/chat.js"></script>
+</HTML>

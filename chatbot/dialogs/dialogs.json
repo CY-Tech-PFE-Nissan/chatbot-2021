@@ -1,0 +1,23 @@
+{
+    "78": {
+        "msg": "Do you mean a payment for leased or financed vehicle?",
+        "yes": {
+            "msg": "Payments are handled with the lending bank that was used to purchase or lease your vehicle. Vehicle sales can be financed through Nissan Motor Acceptance Corp (NMAC) or through a third party bank. Is your vehicle financed by NMAC?",
+            "yes": {
+                "msg": "Great! Vehicle payment can be handled by logging into your NMAC portal account. There you will find your NMAC account, your account balance, your payment schedule and more! The NMAC portal website is <a href='http://www.nissanfinance.com'>http://www.nissanfinance.com</a>.",
+                "yes": "",
+                "no": ""
+            },
+            "no": {
+                "msg": "To make a payment on a vehicle that is not financed through NMAC you will need to contact the financial institution that you used to purchase or lease your vehicle.",
+                "yes": "",
+                "no": ""
+            }
+        },
+        "no": {
+            "msg": "Well, I am sorry but I cannot answer your question, maybe call the support at <a href='https://www.nissanusa.com/contact-us.html'> https://www.nissanusa.com/contact-us.html</a>",
+            "yes": "",
+            "no": ""
+        }
+    }
+}

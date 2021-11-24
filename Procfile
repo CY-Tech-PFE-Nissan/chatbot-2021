@@ -1,0 +1,1 @@
+web: gunicorn mynissan.wsgi --log-file -

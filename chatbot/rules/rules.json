@@ -1,0 +1,38 @@
+{
+    "greetings": {
+        "regex": "(hello|^hi([ .!\\?,]|$)|hey|hola)",
+        "responses":[
+            "Hello François!@nlNice to see you again!@nlLet me know how can I assist you today!"
+        ]
+    },
+    "goodbye": {
+        "regex": "(bye|see\\syou|goodbye)",
+        "responses": [
+            "See you!",
+            "Goodbye!",
+            "Have a nice day.",
+            "Bye!"
+        ]
+    },
+    "thanks": {
+        "regex": "(thanks?\\s?[.!]?|(help|use)ful).*[^\\?]$",
+        "responses":[
+            "Happy to help!",
+            "Any time!",
+            "My pleasure!",
+            "You're welcome!"
+        ]
+    },
+    "question": {
+        "regex": "(how|what|why|who|help|where|question|when|which|\\?$)"
+    },
+    "yes": {
+        "regex": "(^| )ye[s]?([ .!,\\?]|$)"
+    },
+    "no": {
+        "regex": "(^| )no([ .!,\\?]|$)"
+    },
+    "repeat": {
+        "regex": "repeat"
+    }
+}
