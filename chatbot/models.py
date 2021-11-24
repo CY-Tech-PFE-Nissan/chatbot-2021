@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class Question(models.Model):
     topic = models.TextField()
@@ -14,6 +13,17 @@ class Question(models.Model):
     def __str__(self):
         return f"{self.topic} ({self.sub_topic}) : {self.question}"
 
+class Order(models.Model):
+    topic = models.TextField()
+    sub_topic = models.TextField()
+    video_title = models.TextField()
+    order = models.TextField()
+    url_api = models.TextField()
+    sequence_tree = models.TextField()
+    topic_terms = models.TextField()
+
+    def __str__(self):
+        return f"{self.topic} ({self.sub_topic}) : {self.order}"
 
 class Video(models.Model):
     title = models.CharField(max_length=100)

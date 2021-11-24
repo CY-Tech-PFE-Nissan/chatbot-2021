@@ -12,7 +12,7 @@ import pandas as pd
 from nltk.tokenize import sent_tokenize
 from chatbot.features.qsearch import QSearch
 from chatbot.features.sentiment_analysis import get_prediction
-from chatbot.models import Question, Video
+from chatbot.models import Question, Video, Order
 
 from transformers import BertTokenizer, BertForSequenceClassification
 
@@ -37,11 +37,21 @@ class Chatbot:
             reader = csv.reader(f)
             for row in reader:
                 _, created = Question.objects.get_or_create(topic=row[0],sub_topic=row[1],video_title=row[2],question = row[3],answer = row[4],sequence_tree = row[5],topic_terms =row[6])
+        
         database = pd.DataFrame.from_records(Question.objects.all().values())
         self.qsearch = QSearch(database)
         
+        with open("./database/database2.csv") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                _, created = Order.objects.get_or_create(topic=row[0],sub_topic=row[1],video_title=row[2],order = row[3],url_api = row[4],sequence_tree = row[5],topic_terms =row[6])
+        
+        database_order = pd.DataFrame.from_records(Order.objects.all().values())
+        self.osearch = QSearch(database_order)
+        
         # init short term memory for Chatbot
         self.memory: deque = deque([], maxlen=3)
+        
         # dialog scripts
         self.dialog_memories: list = []
         dialog_path = (
@@ -49,8 +59,8 @@ class Chatbot:
         )
         with open(dialog_path, "r") as json_dialogs:
             self.dialogs: dict = json.load(json_dialogs)
-        # sentiment analysis
-        
+
+        # sentiment analysis        
         self.sa_tokenizer = BertTokenizer.from_pretrained(sa_model_path)
         self.sa_model = BertForSequenceClassification.from_pretrained(
             sa_model_path
@@ -139,6 +149,8 @@ class Chatbot:
                             responses += [answer]
                             if video is not None:
                                 videos += [video]
+                elif intent == "order":
+                    pass
 
             if len(responses) == 0:
                 wipe_memory = False
