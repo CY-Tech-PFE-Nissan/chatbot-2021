@@ -27,7 +27,7 @@
         "regex": "(how|what|why|who|help|where|question|when|which|\\?$)"
     },
     "order":{
-        "regex":"ok renault"
+        "regex":"please"
     },
     "yes": {
         "regex": "(^| )ye[s]?([ .!,\\?]|$)"
