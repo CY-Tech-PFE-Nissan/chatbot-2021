@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+chatbot/features/sentiment_analysis/models/tokenizer_config.json
+chatbot/features/sentiment_analysis/models/pytorch_model.bin
+chatbot/features/sentiment_analysis/models/special_tokens_map.json
+chatbot/features/sentiment_analysis/models/vocab.txt
+chatbot/features/sentiment_analysis/models/config.json
