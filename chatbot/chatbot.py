@@ -35,6 +35,7 @@ class Chatbot:
         
         with open("./database/database.csv") as f:
             reader = csv.reader(f)
+            header = next(reader)
             for row in reader:
                 _, created = Question.objects.get_or_create(topic=row[0],sub_topic=row[1],video_title=row[2],question = row[3],answer = row[4],sequence_tree = row[5],topic_terms =row[6])
         
@@ -43,11 +44,15 @@ class Chatbot:
         
         with open("./database/database2.csv") as f:
             reader = csv.reader(f)
-            for row in reader:
-                _, created = Order.objects.get_or_create(topic=row[0],sub_topic=row[1],video_title=row[2],order = row[3],url_api = row[4],sequence_tree = row[5],topic_terms =row[6])
-        
+            header = next(reader)
+            with open("./tree.txt","w") as f:
+                for row in reader:
+                    f.write(",".join(self.qsearch.topic_terms(self.qsearch.sequence_tree(row[3])))+"\n")
+                    _, created = Order.objects.get_or_create(topic = row[0],sub_topic = row[1],video_title = row[2],question = row[3],answer = row[4],sequence_tree = row[5],topic_terms =row[6])
+
         database_order = pd.DataFrame.from_records(Order.objects.all().values())
         self.osearch = QSearch(database_order)
+        
         
         # init short term memory for Chatbot
         self.memory: deque = deque([], maxlen=3)
@@ -118,6 +123,7 @@ class Chatbot:
                 elif intent == "repeat":
                     wipe_memory = False
                     responses += [self.memory[-1]]
+                
                 elif intent == "question":
                     (
                         question_idxs,
@@ -149,8 +155,39 @@ class Chatbot:
                             responses += [answer]
                             if video is not None:
                                 videos += [video]
+
                 elif intent == "order":
-                    pass
+                    (
+                        question_idxs,
+                        question_scores,
+                        best_question_idxs,
+                    ) = self.osearch.search(query)
+                    # print("Scores: ", question_scores)
+                    if best_question_idxs is not None:
+                        results = self.osearch.data.loc[
+                            best_question_idxs,
+                            ["id", "question", "answer", "video_title"],
+                        ].values
+                        best_question_id: Optional[int] = None
+                        answer = ""
+                        video = None
+                        for result in results:
+                            if len(result[2]) >= len(answer):
+                                answer = result[2]
+                                best_question_id = result[0]
+                                video = result[3]
+
+                        if str(best_question_id) in self.dialogs.keys():
+                            wipe_memory = False
+                            responses += [
+                                self.dialogs[str(best_question_id)]["msg"]
+                            ]
+                            self.dialog_memories = [str(best_question_id)]
+                        else:
+                            responses += [answer]
+                            if video is not None:
+                                videos += [video]
+
 
             if len(responses) == 0:
                 wipe_memory = False
@@ -194,7 +231,10 @@ class Chatbot:
             List of the detected intents using regular expressions.
         """
         intents = []
+        question_or_order_already_in_intents = False
         for key in self.rules.keys():
             if re.search(self.rules[key]["regex"], query) is not None:
                 intents.append(key)
+        if "question" in intents and "order" in intents:
+            intents.remove("question")
         return intents
