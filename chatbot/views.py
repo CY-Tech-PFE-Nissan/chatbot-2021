@@ -155,14 +155,11 @@ def check_user(request):
             return redirect("/chatbot/api_auth")
 
 def create_account(request):
-    """
+    
     if request.method == "POST":
-        vin = request.POST.get('vin','')
-
-        request.session['vin'] = vin
-    """
-    request.session['vin'] = '123'
-    return redirect("/chatbot")
+        data = json.load(request)['vin']
+        request.session["vin"] = data
+    return HttpResponse(request)
 
 def discuss(request):
     """Receives a message and generates an answer with
