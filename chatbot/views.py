@@ -10,6 +10,7 @@ import json
 import csv
 import requests
 
+from .avatar_db_requests import creation_account
 from .chatbot import Chatbot
 from .features.icon_recognition import get_prediction
 from .features.air_filter import get_analysis
@@ -36,7 +37,7 @@ def index(request):
 
 
 def chat(request):
-    if 'login' in request.session.keys():
+    if 'vin' in request.session.keys():
         return render(request, "chatbot/chat.html")
     return redirect("/chatbot/api_auth")
 
@@ -61,17 +62,15 @@ def check_user(request):
     """
 
     if request.method == "POST":
-        request.session['login'] = 	request.POST.get('login','')
-        request.session['password'] = 	request.POST.get('password','')
+        email = 	request.POST.get('login','')
+        password = 	request.POST.get('password','')
         api_key_gigya = "3_4LKbCcMMcvjDm3X89LU4z4mNKYKdl_W0oD9w-Jvih21WqgJKtFZAnb9YdUgWT9_a"
         api_key_kameron = "Ae9FDWugRxZQAGm3Sxgk7uJn6Q4CGEA2"
 
         expiration = "9000"
 
         #email = "smylet51@gmail.com"
-        email = request.session['login']
         #password = "TestRenault123"
-        password = request.session['password']
 
         url = "https://accounts.eu1.gigya.com/accounts.login?apiKey=3_4LKbCcMMcvjDm3X89LU4z4mNKYKdl_W0oD9w-Jvih21WqgJKtFZAnb9YdUgWT9_a&loginID="+email+"&password="+password
 
@@ -148,7 +147,6 @@ def check_user(request):
             response = requests.request("GET", url7, headers=headers, data=payload)
             response7 = json.loads(response.text)
             request.session['vim'] = response7
-
             print("c'est bon")
             return redirect("/chatbot/cars")
 
@@ -156,7 +154,15 @@ def check_user(request):
             print("c'est pas bon")
             return redirect("/chatbot/api_auth")
 
+def create_account(request):
+    """
+    if request.method == "POST":
+        vin = request.POST.get('vin','')
 
+        request.session['vin'] = vin
+    """
+    request.session['vin'] = '123'
+    return redirect("/chatbot")
 
 def discuss(request):
     """Receives a message and generates an answer with

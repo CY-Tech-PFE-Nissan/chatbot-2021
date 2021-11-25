@@ -6,6 +6,7 @@ urlpatterns = [
     path("api_auth", views.api_auth, name="api_auth"),
     path("cars", views.cars, name="cars"),
     path("check_user", views.check_user, name="check_user"),
+    path("create_account", views.create_account, name="create_account"),
     path("", views.chat, name="chat"),
     path("discuss", views.discuss, name="discuss"),
     path("upload_file", views.upload_file, name="upload_file"),
