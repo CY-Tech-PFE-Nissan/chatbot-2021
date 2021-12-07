@@ -11,7 +11,7 @@ import ast
 import csv
 #from app_avatar import *
 import sys
-from sql_base_avatar import *
+from .sql_base_avatar import *
 
 #avatar
 api_key_gigya = "3_4LKbCcMMcvjDm3X89LU4z4mNKYKdl_W0oD9w-Jvih21WqgJKtFZAnb9YdUgWT9_a"
@@ -19,7 +19,7 @@ api_key_kameron = 'Ae9FDWugRxZQAGm3Sxgk7uJn6Q4CGEA2'
 
 expiration = "9000"
 
-def new_account(email="pierre.nicolas9@gmail.com", password="Nessa6402", vin_user=" ")
+def new_account(email="pierre.nicolas9@gmail.com", password="Nessa6402", vin_user=" "):
     #email = "antoine.giraud-desjuzeur@hotmail.fr"
     #password = "TestAvatar1"
 
