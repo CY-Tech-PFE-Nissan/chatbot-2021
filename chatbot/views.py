@@ -17,6 +17,7 @@ from .features.air_filter import get_analysis
 from .features.voice_interactions import get_text_from_audio
 from .features.voice_interactions import get_audio_from_text
 from .features.voice_interactions import remove_audios
+from .avatar_endpoints.TestAutonomie import api_call
 
 
 SENTIMENT_ANALYSIS_FOLDER = (
@@ -181,6 +182,9 @@ def discuss(request):
         # Computer answer / video title if existing
         message, video = custom_chatbot(data)
         messages = message.split("@nl")  # Split paragraphs
+
+        # Look if order message needs an api call
+        messages = [message if message.split(' ')[0]!='order' else api_call(message.split(' ')[1],request.session['vin']) for message in messages]
 
         # Create audios
         titles = []
