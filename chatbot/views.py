@@ -10,7 +10,7 @@ import json
 import csv
 import requests
 
-from .avatar_db_requests import creation_account
+from .avatar_db_requests.creation_account import new_account
 from .chatbot import Chatbot
 from .features.icon_recognition import get_prediction
 from .features.air_filter import get_analysis
@@ -147,6 +147,8 @@ def check_user(request):
             response = requests.request("GET", url7, headers=headers, data=payload)
             response7 = json.loads(response.text)
             request.session['vim'] = response7
+            request.session['email'] = email
+            request.session['password'] = password
             print("c'est bon")
             return redirect("/chatbot/cars")
 
@@ -154,10 +156,10 @@ def check_user(request):
             print("c'est pas bon")
             return redirect("/chatbot/api_auth")
 
-def create_account(request):
-    
+def create_account(request):  
     if request.method == "POST":
         data = json.load(request)['vin']
+        new_account(request.session['email'],request.session['password'],data)
         request.session["vin"] = data
     return HttpResponse(request)
 
