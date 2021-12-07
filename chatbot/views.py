@@ -159,7 +159,7 @@ def check_user(request):
 def create_account(request):  
     if request.method == "POST":
         data = json.load(request)['vin']
-        new_account(request.session['email'],request.session['password'],data)
+        #new_account(request.session['email'],request.session['password'],data)
         request.session["vin"] = data
     return HttpResponse(request)
 
