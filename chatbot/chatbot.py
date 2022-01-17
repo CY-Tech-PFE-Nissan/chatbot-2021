@@ -95,6 +95,7 @@ class Chatbot:
         wipe_memory = True
         videos = []
         for query in queries:
+            """
             # Get intents
             intents = self.get_intent(query.lower())
             # Handle dialog
@@ -188,13 +189,13 @@ class Chatbot:
                             if video is not None:
                                 videos += [video]
 
-
+            """
             if len(responses) == 0:
                 wipe_memory = False
                 # Sentiment analysis
                 
                 mood = get_prediction(query, self.sa_tokenizer, self.sa_model)
-
+                print(mood)
                 # Face emotion recognition
                 """
                 emotion_probabilities = detector()
@@ -252,14 +253,14 @@ class Chatbot:
                             + "https://www.nissanusa.com/contact-us.html</a> if you "
                             + "think my answers are not satisfying."
                         ]
-                    elif mood == "positive":
-                        responses += [
-                            "Oh well, u're lucky !"
-                        ]
-                    else:
-                        responses += [
-                            "Sorry, I didn't catch that. Could you reformulate, please?"
-                        ]
+                elif mood == "positive":
+                    responses += [
+                        "Oh well, u're lucky !"
+                    ]
+                else:
+                    responses += [
+                        "Sorry, I didn't catch that. Could you reformulate, please?"
+                    ]
 
         if wipe_memory:
             self.dialog_memories = []

@@ -17,7 +17,7 @@ emotion_classifier = load_model(emotion_model_path, compile=False)
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised", "neutral"]
 
 cv2.namedWindow('your_face')
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 while True:
 	frame = camera.read()[1]
