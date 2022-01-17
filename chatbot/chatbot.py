@@ -194,21 +194,72 @@ class Chatbot:
                 # Sentiment analysis
                 
                 mood = get_prediction(query, self.sa_tokenizer, self.sa_model)
-                if mood == "negative":
-                    responses += [
-                        "Oh that is sad to hear, maybe call the support at "
-                        + "<a href='https://www.nissanusa.com/contact-us.html'>"
-                        + "https://www.nissanusa.com/contact-us.html</a> if you "
-                        + "think my answers are not satisfying."
-                    ]
-                elif mood == "positive":
-                    responses += [
-                        "Oh well, u're lucky !"
-                    ]
+
+                # Face emotion recognition
+                """
+                emotion_probabilities = detector()
+                seuil = 0.3
+                
+                emotion_list = ['angry','disgust','scared','happy','sad','surprised','neutral']
+                detected, prob = np.argmax(emotion_probabilities), np.max(emotion_probabilities)
+
+                if prob > seuil:
+
+                    if detected == emotion_list.index('angry') and mood == "negative":
+                        responses += "Oh man...look at you. You seem really angry. You're frightening me now. Maybe stop for a while to take a deep breath."
+
+                    elif detected == emotion_list.index('disgust'):
+                        responses += "Hey, I don't know what you just learned about but it shouldn't be a pleasant thing."
+
+                    elif detected == emotion_list.index('scared') and mood == "negative":
+                        responses += "Don't panic ! Let me help you call the support at "
+                            + "<a href='https://www.nissanusa.com/contact-us.html'>"
+                            + "https://www.nissanusa.com/contact-us.html</a> if you "
+                            + "think my answers are not satisfying."
+
+                    elif detected == emotion_list.index('happy') and mood == "positive":
+                        responses += "What a nice smile, you feel full of the joys of spring, isn't it ?"
+
+                    elif detected == emotion_list.index('sad') and mood == "negative":
+                        responses += "Have a bad day ? Can I purpose you music or other distraction ?"
+
+                    else :
+                        responses += [
+                            "Sorry, I didn't catch that. Could you reformulate, please?"
+                        ]
+                
                 else:
-                    responses += [
-                        "Sorry, I didn't catch that. Could you reformulate, please?"
-                    ]
+                    if mood == "negative":
+                        responses += [
+                            "Oh that is sad to hear, maybe call the support at "
+                            + "<a href='https://www.nissanusa.com/contact-us.html'>"
+                            + "https://www.nissanusa.com/contact-us.html</a> if you "
+                            + "think my answers are not satisfying."
+                        ]
+                    elif mood == "positive":
+                        responses += [
+                            "Oh well, u're lucky !"
+                        ]
+                    else:
+                        responses += [
+                            "Sorry, I didn't catch that. Could you reformulate, please?"
+                        ]
+                """
+                if mood == "negative":
+                        responses += [
+                            "Oh that is sad to hear, maybe call the support at "
+                            + "<a href='https://www.nissanusa.com/contact-us.html'>"
+                            + "https://www.nissanusa.com/contact-us.html</a> if you "
+                            + "think my answers are not satisfying."
+                        ]
+                    elif mood == "positive":
+                        responses += [
+                            "Oh well, u're lucky !"
+                        ]
+                    else:
+                        responses += [
+                            "Sorry, I didn't catch that. Could you reformulate, please?"
+                        ]
 
         if wipe_memory:
             self.dialog_memories = []
