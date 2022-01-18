@@ -5,20 +5,23 @@ import imutils
 import cv2
 from keras.models import load_model
 import numpy as np
+import os
+
+# parameters for loading data and images
+path2 = os.path.dirname(__file__)
+detection_model_path = path2+'/haarcascade_files/haarcascade_frontalface_default.xml'
+emotion_model_path = path2+'/models/_mini_XCEPTION.102-0.66.hdf5'
+
+# hyper-parameters for bounding boxes shape
+# loading models
+face_detection = cv2.CascadeClassifier(detection_model_path)
+emotion_classifier = load_model(emotion_model_path, compile=False)
+EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised", "neutral"]
+camera = cv2.VideoCapture(0)
 
 def detect():
-# parameters for loading data and images
-    detection_model_path = 'haarcascade_files/haarcascade_frontalface_default.xml'
-    emotion_model_path = 'models/_mini_XCEPTION.102-0.66.hdf5'
 
- # hyper-parameters for bounding boxes shape
- # loading models
-    face_detection = cv2.CascadeClassifier(detection_model_path)
-    emotion_classifier = load_model(emotion_model_path, compile=False)
-    EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised", "neutral"]
-
-    cv2.namedWindow('your_face')
-    camera = cv2.VideoCapture(0)
+    #cv2.namedWindow('your_face')
 
     while True:
         frame = camera.read()[1]
@@ -48,6 +51,6 @@ def detect():
     emotion_probability = np.max(preds)
     label = EMOTIONS[preds.argmax()]
     print(label)
-    return label
+    return emotion_probability, label
 
 
