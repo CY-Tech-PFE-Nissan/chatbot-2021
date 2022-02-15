@@ -184,8 +184,16 @@ def discuss(request):
         messages = message.split("@nl")  # Split paragraphs
 
         # Look if order message needs an api call
+        request.session["vin"]="VF1AG000X64744477"
+        if (message.split(' ')[0]=='order'):
+            request.session["order"]=1
+        else:
+            request.session["order"]=0
+
         messages = [message if message.split(' ')[0]!='order' else api_call(message.split(' ')[1],request.session['vin']) for message in messages]
 
+        if (request.session["order"]==1):
+            messages[0] = messages[0]["messages"][0]["text"]
         # Create audios
         titles = []
         for i in range(len(messages)):
