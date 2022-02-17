@@ -6,6 +6,7 @@ import cv2
 from keras.models import load_model
 import numpy as np
 import os
+import datetime
 
 # parameters for loading data and images
 path2 = os.path.dirname(__file__)
@@ -17,11 +18,11 @@ emotion_model_path = path2+'/models/_mini_XCEPTION.102-0.66.hdf5'
 face_detection = cv2.CascadeClassifier(detection_model_path)
 emotion_classifier = load_model(emotion_model_path, compile=False)
 EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised", "neutral"]
+
 camera = cv2.VideoCapture(0)
 
 def detect():
 
-    #cv2.namedWindow('your_face')
 
     while True:
         frame = camera.read()[1]
@@ -34,9 +35,7 @@ def detect():
         if len(faces) > 0:
             break
 
-    if len(faces) > 0:
-        faces = sorted(faces, reverse=True,
-        key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
+    faces = sorted(faces, reverse=True, key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
     (fX, fY, fW, fH) = faces
     # Extract the ROI of the face from the grayscale image, resize it to a fixed 28x28 pixels, and then prepare
     # the ROI for classification via the CNN
@@ -51,6 +50,7 @@ def detect():
     emotion_probability = np.max(preds)
     label = EMOTIONS[preds.argmax()]
     print(label)
+    cv2.imwrite("C:\\Users\\coren\\OneDrive\\Documents\\GitHub\\chatbot-2021\\chatbot\\features\\emotion_recognition\\photos\\" +str(datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))+".png", frame)
     return emotion_probability, label
 
 
